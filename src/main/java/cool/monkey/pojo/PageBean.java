@@ -1,11 +1,12 @@
 package cool.monkey.pojo;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.LinkedList;
 import lombok.Data;
 
 @Data
 public class PageBean implements Serializable {
-  private List<UserIndex> list;
+
+  private LinkedList<UserIndex> list;
   private int listSize;
 }
