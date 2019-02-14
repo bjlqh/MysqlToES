@@ -9,8 +9,8 @@ public class User implements Serializable {
   private long id;
   private String first_name;
   private String unique_name;
-  private Date birthday;
+  private String birthday;
   private int deleted;
   private String gender;
-  private Date updated_at;
+  private String updated_at;
 }
