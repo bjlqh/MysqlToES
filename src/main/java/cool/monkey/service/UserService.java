@@ -50,19 +50,21 @@ public class UserService {
     }
 
     long start1 = System.currentTimeMillis();
-    List<UserProfile> profiles = userProfileDao.findUserProfile(ids);
-    long end1 = System.currentTimeMillis();
-    System.out.println("查询userProfile,用时：" + (end1 - start1) / 1000 + "秒");
+    if (ids.size() > 0 && ids != null) {
+      List<UserProfile> profiles = userProfileDao.findUserProfile(ids);
+      long end1 = System.currentTimeMillis();
+      System.out.println("查询userProfile,用时：" + (end1 - start1) / 1000 + "秒");
 
-    long start2 = System.currentTimeMillis();
-    for (UserProfile profile : profiles) {
-      //从map中获取userindex
-      UserIndex userIndex = userIndexMap.get(profile.getId());
-      userIndex.setThumb_photo_url(profile.getThumb_photo_url());
-      bulkRequest.add(generateUserRequest(userIndex, index, type));
+      long start2 = System.currentTimeMillis();
+      for (UserProfile profile : profiles) {
+        //从map中获取userindex
+        UserIndex userIndex = userIndexMap.get(profile.getId());
+        userIndex.setThumb_photo_url(profile.getThumb_photo_url());
+        bulkRequest.add(generateUserRequest(userIndex, index, type));
+      }
+      long end2 = System.currentTimeMillis();
+      System.out.println("userIndex转成json用时：" + (end2 - start2) / 1000 + "秒");
     }
-    long end2 = System.currentTimeMillis();
-    System.out.println("userIndex转成json用时：" + (end2 - start2) / 1000 + "秒");
 
     pageMap.put("pageBean", pageBean);
     pageMap.put("bulkRequest", bulkRequest);
