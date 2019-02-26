@@ -13,7 +13,9 @@ public class UserProfileDao {
 
   public List<UserProfile> findUserProfile(List<Long> ids) {
     String id = Arrays.toString(ids.toArray()).replace("[", "").replace("]", "");
-    String sql = "select up.id,up.thumb_photo_url from user_profiles up where up.id in(" + id + ")";
+    String sql =
+        "select up.id,up.thumb_photo_url thumbPhotoUrl from user_profiles up where up.id in(" + id
+            + ")";
     return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(UserProfile.class));
   }
 }

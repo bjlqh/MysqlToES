@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 public class User implements Serializable {
   private long id;
-  private String first_name;
-  private String unique_name;
+  private String firstName;
+  private String uniqueName;
   private String birthday;
   private int deleted;
   private String gender;
-  private String updated_at;
+  private String updatedAt;
 }

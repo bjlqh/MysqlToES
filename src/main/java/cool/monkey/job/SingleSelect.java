@@ -1,4 +1,4 @@
-package cool.monkey.job;
+/*package cool.monkey.job;
 
 import com.amazonaws.auth.AWS4Signer;
 import com.amazonaws.auth.AWSCredentialsProvider;
@@ -84,4 +84,4 @@ public class SingleSelect {
     return new RestHighLevelClient(RestClient.builder(HttpHost.create(aesEndpoint))
         .setHttpClientConfigCallback(hacb -> hacb.addInterceptorLast(interceptor)));
   }
-}
+}*/
