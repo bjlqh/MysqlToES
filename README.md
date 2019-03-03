@@ -2,7 +2,7 @@
 
 ### 在durid.properties配置mysql数据库信息。
 
-### 在config.properties配置索引相关信息和查询数据库条件相关信息。
+### 在config.properties配置索引库相关信息和查询数据库条件相关信息。
  `--start 可以不给`
  #####
  `--end 从后往前导入数据，所以end必须给出。`
