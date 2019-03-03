@@ -66,7 +66,9 @@ public class CreateUserIndex {
 
     if (!isExistIndice) {
       CreateIndexRequest indexRequest = new CreateIndexRequest(index);
-      indexRequest.alias(new Alias(alias));
+      if (StringUtil.isNotEmpty(alias)) {
+        indexRequest.alias(new Alias(alias));
+      }
       try {
         esClient.indices().create(indexRequest, RequestOptions.DEFAULT);
       } catch (IOException e) {
