@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class UserProfile implements Serializable {
-  private long id;
+
+  private Long id;
   private String thumbPhotoUrl;
 }

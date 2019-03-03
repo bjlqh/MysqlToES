@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class UserIndex implements Serializable {
-  private long id;
+
+  private Long id;
   private String firstName;
   private String uniqueName;
   private String birthday;
