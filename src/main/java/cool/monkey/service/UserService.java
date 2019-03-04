@@ -74,7 +74,8 @@ public class UserService {
         System.exit(1);
       }
       long end3 = System.currentTimeMillis();
-      System.out.println("保存" + pageSize + "条记录用时：" + (end3 - start3) / 1000 + "秒");
+      System.out
+          .println("保存" + userIndexMap.keySet().size() + "条记录用时：" + (end3 - start3) / 1000 + "秒");
 
     }
     return userList;

@@ -16,6 +16,7 @@ import org.apache.http.HttpHost;
 import org.apache.http.HttpRequestInterceptor;
 import org.elasticsearch.action.admin.indices.alias.Alias;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -58,15 +59,20 @@ public class CreateUserIndex {
 
   public static void main(String[] args) throws ParseException, IOException {
     RestHighLevelClient esClient = esClient(serviceName, region);
-    CreateIndexRequest indexRequest = new CreateIndexRequest(index);
-    indexRequest.alias(new Alias(alias));
-    try {
-      esClient.indices().create(indexRequest, RequestOptions.DEFAULT);
-    } catch (IOException e) {
-      esClient.close();
-      System.exit(1);
-    }
 
+    GetIndexRequest getIndexRequest = new GetIndexRequest().indices(index);
+    boolean exists = esClient.indices().exists(getIndexRequest, RequestOptions.DEFAULT);
+    System.out.println(exists);
+    if (!exists) {
+      CreateIndexRequest indexRequest = new CreateIndexRequest(index);
+      indexRequest.alias(new Alias(alias));
+      try {
+        esClient.indices().create(indexRequest, RequestOptions.DEFAULT);
+      } catch (IOException e) {
+        esClient.close();
+        System.exit(1);
+      }
+    }
     System.out.println("=====================任务开始" + new Date() + "===================");
     long start1 = System.currentTimeMillis();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -92,7 +98,8 @@ public class CreateUserIndex {
       List<User> userList = userService
           .findList(endTime, pageSize, index, type, esClient);
       long end = System.currentTimeMillis();
-      System.out.println("第" + pageNum + "页保存成功，" + "用时" + (end - start) / 1000 + "秒");
+      System.out.println("==================第" + pageNum + "页保存成功，" + "用时" + (end - start) / 1000
+          + "秒==================");
       pageNum++;
 
       if (startTime == null && userList.size() > 0) {
