@@ -3,7 +3,6 @@ package cool.monkey.job;
 import com.amazonaws.auth.AWS4Signer;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.frameworkset.util.StringUtil;
 import cool.monkey.pojo.User;
 import cool.monkey.service.UserService;
 import cool.monkey.interceptor.AWSRequestSigningApacheInterceptor;
@@ -20,8 +19,7 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.frameworkset.elasticsearch.ElasticSearchHelper;
-import org.frameworkset.elasticsearch.client.ClientInterface;
+import org.springframework.util.StringUtils;
 
 public class CreateUserIndex {
 
@@ -60,21 +58,13 @@ public class CreateUserIndex {
 
   public static void main(String[] args) throws ParseException, IOException {
     RestHighLevelClient esClient = esClient(serviceName, region);
-
-    ClientInterface clientUtil = ElasticSearchHelper.getRestClientUtil();
-    boolean isExistIndice = clientUtil.existIndice(index);
-
-    if (!isExistIndice) {
-      CreateIndexRequest indexRequest = new CreateIndexRequest(index);
-      if (StringUtil.isNotEmpty(alias)) {
-        indexRequest.alias(new Alias(alias));
-      }
-      try {
-        esClient.indices().create(indexRequest, RequestOptions.DEFAULT);
-      } catch (IOException e) {
-        esClient.close();
-        System.exit(1);
-      }
+    CreateIndexRequest indexRequest = new CreateIndexRequest(index);
+    indexRequest.alias(new Alias(alias));
+    try {
+      esClient.indices().create(indexRequest, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      esClient.close();
+      System.exit(1);
     }
 
     System.out.println("=====================任务开始" + new Date() + "===================");
@@ -82,7 +72,7 @@ public class CreateUserIndex {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Date endTime = sdf.parse(end);
     Date startTime = null;
-    if (!StringUtil.isEmpty(start)) {
+    if (!StringUtils.isEmpty(start)) {
       startTime = sdf.parse(start);
     }
     save(startTime, endTime, pageSize, pageNum, esClient, sdf, index, type);
